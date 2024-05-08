@@ -1,11 +1,11 @@
 // ╔═══════════════════════════════════════╗
 // ║  @Ultr                                ║
-// ║  Multi Crossover Moving Averages      ║
+// ║  Multi Moving Averages & CrossOver    ║
 // ║  © LuxAlgo                            ║
 // ╚═══════════════════════════════════════╝
 
 //@version=5
-indicator("Multi CrossOver Moving Average (@Ultr)", shorttitle = "MC MA (@Ultr.)", overlay = true)
+indicator("Multi Moving Average & CrossOver (@Ultr)", shorttitle = "MAs CrossOver(@Ultr.)", overlay = true)
 
 //  ═════════
 //  Multi CMA
@@ -94,8 +94,8 @@ color maCrossOver8 = ma8 > ma21 ? colorBuy80 : colorSell60
 fill(maPlot8, maPlot21, maCrossOver8, "CrossOver 8")
 
 // 20 MA
-color maCrossOver20 = ma8 > ma56 ? colorBuy80 : colorSell80
-fill(maPlot8, maPlot56, maCrossOver20, "CrossOver 21")
+color maCrossOver21 = ma8 > ma56 ? colorBuy80 : colorSell80
+fill(maPlot8, maPlot56, maCrossOver21, "CrossOver 21")
 
 // CrossOver Line
 bool maRising  = ta.rising(ma10, 1)
@@ -104,15 +104,15 @@ plot(ma21, "Operativa", crossMa, 4)
 
 //  Degradado
 
-//  float maHeight = ta.percentrank(ma20, 100)
+//  float maHeight = ta.percentrank(ma21, 100)
 //  float transparency = math.min(80, 100 - maHeight)
 
 //  MA degradado
 //  plot(ma, "Degradado", color.new(colorFirs, transparency), 2)
 
 //  Marcas Operativas
-//  buyCond = ta.crossover(ma14, ma20)
-//  sellCond = ta.crossunder(ma14, ma20)
+//  buyCond = ta.crossover(ma10, ma21)
+//  sellCond = ta.crossunder(ma10, ma21)
 
 //  plotshape(series = buyCond, title = "Compra", style = shape.triangleup, location = location.belowbar, color = colorBuy, text = "Buy", size = size.tiny)
 //  plotshape(series = sellCond, title = "Venta", style = shape.triangledown, location = location.abovebar, color = colorSell, text = "Sell", size = size.tiny)
