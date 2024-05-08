@@ -13,22 +13,30 @@ indicator("Multi CrossOver Moving Average (@Ultr)", shorttitle = "MC MA (@Ultr.)
 //  ═════════
 
 // Color
-color colorZero = color.new(#e91e63, 55)  // color Amarillo #eedd45
-color colorFirs = color.new(#33ffac, 55)  // color Menta	#33ffac
-color colorSeco = color.new(#eedd45, 55)  // color Fucxia	#e91e63
-color colorThir = color.new(#0034c5, 92)  // color Azul		#0034c5
+color colorZero = color.new(#e91e63, 46)  // color Amarillo #eedd45
+color colorFirs = color.new(#33ffac, 46)  // color Menta	#33ffac
+color colorSeco = color.new(#eedd45, 46)  // color Fucxia	#e91e63
+color colorThir = color.new(#0034c5, 80)  // color Azul		#0034c5
 color colorCuar = color.new(#9598a1, 92)  // color Gris		#9598a1
-color colorFift = color.new(#e65100, 65)  // color Naranja	#e65100
+color colorFift = color.new(#e65100, 46)  // color Naranja	#e65100
 
-color colorBuy  = color.new(#33ffac, 45)
-color colorSell = color.new(#e91e63, 45)
+colorBuy80          = color.new(#33ffac, 80)
+colorSell80         = color.new(#e91e63, 80)
+color colorBuy60    = color.new(#33ffac, 60)
+color colorSell60   = color.new(#e91e63, 60)
+colorBuy40          = color.new(#33ffac, 40)
+colorSell40         = color.new(#e91e63, 40)
+colorBuy20          = color.new(#33ffac, 20)
+colorSell20         = color.new(#e91e63, 20)
 
 // Indicador
 int length8   = input(8, title   = "8 Periodos")
-int length20  = input(20, title  = "20 Periodos")
-int length55  = input(55, title  = "55 Periodos")
+int length21  = input(21, title  = "21 Periodos")
+int length56  = input(56, title  = "56 Periodos")
 int length100 = input(100, title = "100 Periodos")
 int length200 = input(200, title = "200 Periodos")
+
+length10 = input(10)
 
 //  ═════════
 //  Multi CMA
@@ -56,15 +64,16 @@ ma(source, length, type) =>
 //  ═══════
 
 ma8 = ma(close, length8, optionMa)
-// plot(ma8, "MA 8", colorZero, linewidth = 1)
+//  plot(ma8, "MA 8", colorZero, linewidth = 1)
 maPlot8 = plot(ma8, "MA 8", color = na)
 
-ma20 = ma(close, length20, optionMa)
-// plot(ma20, "MA 20", colorFirs, linewidth = 1)
-maPlot20 = plot(ma20, "MA 20", color = na)
+ma21 = ma(close, length21, optionMa)
+//  plot(ma21, "MA 21", colorFirs, linewidth = 1)
+maPlot21 = plot(ma21, "MA 21", color = na)
 
-ma55 = ma(close, length55, optionMa)
-plot(ma55, "MA 55", colorSeco, linewidth = 1)
+ma56 = ma(close, length56, optionMa)
+//  plot(ma56, "MA 56", colorSeco, linewidth = 1)
+maPlot56 = plot(ma56, "MA 56", color = na)
 
 ma100 = ma(close, length100, optionMa)
 plot(ma100, "MA 100", colorThir, linewidth = 2)
@@ -72,33 +81,38 @@ plot(ma100, "MA 100", colorThir, linewidth = 2)
 ma200 = ma(close, length200, optionMa)
 plot(ma200, "MA 200", colorCuar, linewidth = 1, style = plot.style_area)
 
+ma10 = ta.ema(close, 10)
+
 //  ═════════
 //  Multi CMA
 //  CrossOver
 //  ═════════
 
-// CrossOver ghost
-color maCrossOver = ma8 > ma20 ? colorBuy : colorSell
-fill(maPlot8, maPlot20, maCrossOver, "CrossOver")
+// CrossOver shadow
+// 8 MA
+color maCrossOver8 = ma8 > ma21 ? colorBuy80 : colorSell60
+fill(maPlot8, maPlot21, maCrossOver8, "CrossOver 8")
+
+// 20 MA
+color maCrossOver20 = ma8 > ma56 ? colorBuy80 : colorSell80
+fill(maPlot8, maPlot56, maCrossOver20, "CrossOver 21")
 
 // CrossOver Line
-bool maRising  = ta.rising(ma20, 1)
+bool maRising  = ta.rising(ma10, 1)
+color crossMa = maRising ? colorBuy40 : colorSell40
+plot(ma21, "Operativa", crossMa, 4)
 
-color crossMa = maRising ? colorBuy : colorSell
-plot(ma20, "Operativa", crossMa, 4)
+//  Degradado
 
+//  float maHeight = ta.percentrank(ma20, 100)
+//  float transparency = math.min(80, 100 - maHeight)
 
-//  ══════════════════
+//  MA degradado
+//  plot(ma, "Degradado", color.new(colorFirs, transparency), 2)
 
-float maHeight = ta.percentrank(ma20, 100)
-float transparency = math.min(80, 100 - maHeight)
-// This plot uses a calculated color.
-plot(ma, "MA1", color.new(colorThir, transparency), 2)
-// This plot does not use a calculated color.
-plot(close, "Close", colorCuar)
+//  Marcas Operativas
+//  buyCond = ta.crossover(ma14, ma20)
+//  sellCond = ta.crossunder(ma14, ma20)
 
-buyCond = ta.crossover(ma8 > ma20)
-sellCond = ta.crossunder(ma8 < ma20)
-
-plotshape(series = buyCond, title = "Long", style = shape.triangleup, location = location.belowbar, colorBuy, text = "Buy", size = size.tiny)
-plotshape(series = sellCond, title = "Short", style = shape.triangledown, location = location.abovebar, colorSell, text = "Sell", size = size.tiny)
+//  plotshape(series = buyCond, title = "Compra", style = shape.triangleup, location = location.belowbar, color = colorBuy, text = "Buy", size = size.tiny)
+//  plotshape(series = sellCond, title = "Venta", style = shape.triangledown, location = location.abovebar, color = colorSell, text = "Sell", size = size.tiny)
