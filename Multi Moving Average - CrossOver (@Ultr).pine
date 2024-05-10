@@ -13,36 +13,37 @@ indicator("Multi Moving Average & CrossOver (@Ultr)", shorttitle = "MAs CrossOve
 //  ═════════
 
 // Color
-color colorZero = color.new(#e91e63, 46)  // color Amarillo #eedd45
-color colorFirs = color.new(#33ffac, 46)  // color Menta	#33ffac
-color colorSeco = color.new(#eedd45, 46)  // color Fucxia	#e91e63
-color colorThir = color.new(#0034c5, 80)  // color Azul		#0034c5
-color colorCuar = color.new(#9598a1, 92)  // color Gris		#9598a1
-color colorFift = color.new(#e65100, 46)  // color Naranja	#e65100
+// Standard Colors
+//  colorAqua    = color.aqua      // #00BCD4  Aqua
+//  colorBlue    = color.blue      // #2196F3  Blue
+//  colorTeal    = color.teal      // #00897B  Teal
+//  colorGreen   = color.green     // #4CAF50  Green
+//  colorOlive   = color.olive     // #808000  Olive
+//  colorLime    = color.lime      // #00E676  Lime
+//  colorYellow  = color.yellow    // #FFEB3B  Yellow
+//  colorOrange  = color.orange    // #FF9800  Orange
+//  colorMaroon  = color.maroon    // #880E4F  Maroon
+//  colorRed     = color.red       // #FF5252  Red
+//  colorFuchsia = color.fuchsia   // #E040FB  Fuchsia
+//  colorPurple  = color.purple    // #9C27B0  Purple
+//  colorNavy    = color.navy      // #311B92  Navy
+//  colorBlack   = color.black     // #363A45  Black
+//  colorGray    = color.gray      // #787B86  Gray
+//  colorSilver  = color.silver    // #B2B5BE  Silver
+//  colorWhite   = color.white     // #FFFFFF  White
 
-colorBuy80          = color.new(#33ffac, 80)
-colorSell80         = color.new(#e91e63, 80)
-color colorBuy60    = color.new(#33ffac, 60)
-color colorSell60   = color.new(#e91e63, 60)
-colorBuy40          = color.new(#33ffac, 40)
-colorSell40         = color.new(#e91e63, 40)
-colorBuy20          = color.new(#33ffac, 20)
-colorSell20         = color.new(#e91e63, 20)
+length = (10)
+transpar = (100)
 
-// Indicador
-int length8   = input(8, title   = "8 Periodos")
-int length21  = input(21, title  = "21 Periodos")
-int length55  = input(55, title  = "55 Periodos")
-int length100 = input(100, title = "100 Periodos")
-int length200 = input(200, title = "200 Periodos")
+color colorZero = color.new(#e91e63, na)  // color Amarillo #eedd45
+color colorFirs = color.new(#33ffac, na)  // color Menta	#33ffac
+color colorSeco = color.new(#eedd45, na)  // color Fucxia	#e91e63
+color colorThir = color.new(#0034c5, na)  // color Azul		#0034c5
+color colorCuar = color.new(#00ffd5, na)  // color Gris		#9598a1   #00ffd5
+color colorFift = color.new(#e65100, na)  // color Naranja	#e65100
 
-length10 = input(10)
-length13 = input(13)
-length20 = input(20)
-length30 = input(30)
-length34 = input(34)
-length40 = input(40)
-length50 = input(50)
+color colorBuy  = color.new(#33ffac, 85)
+color colorSell = color.new(#e91e63, 85)
 
 //  ═════════
 //  Multi CMA
@@ -68,40 +69,41 @@ ma(source, length, type) =>
 //  Multi CMA
 //  Instancias
 //  ══════════
-ma8  = ma(close, length8, optionMa)
-//  plot(ma8, "MA 8", colorZero, linewidth = 1)
-ma10 = ma(close, length10, optionMa)
-ma13 = ma(close, length13, optionMa)
-ma20 = ma(close, length20, optionMa)
-ma21 = ma(close, length21, optionMa)
-ma30 = ma(close, length30, optionMa)
-ma34 = ma(close, length34, optionMa)
-ma40 = ma(close, length40, optionMa)
-ma50 = ma(close, length50, optionMa)
-//  plot(ma21, "MA 21", colorFirs, linewidth = 1)
-ma55 = ma(close, length55, optionMa)
-//  plot(ma55, "MA 55", colorSeco, linewidth = 1)
-ma100 = ma(close, length100, optionMa)
-ma200 = ma(close, length200, optionMa)
+
+ma8  = ma(close, length-2, optionMa)
+ma10 = ma(close, length, optionMa)
+ma13 = ma(close, length+3, optionMa)
+ma20 = ma(close, length*2, optionMa)
+ma21 = ma(close, length+11, optionMa)
+ma30 = ma(close, length*3, optionMa)
+ma34 = ma(close, length+3+4, optionMa)
+ma40 = ma(close, length*4, optionMa)
+ma50 = ma(close, length*5, optionMa)
+ma55 = ma(close, length*5+5, optionMa)
+ma100 = ma(close, length*10, optionMa)
+ma200 = ma(close, length*20, optionMa)
 
 //  ═════════
 //  Multi CMA
 //  Display
 //  ═══════
 
-plot(ma100, "MA 100", colorThir, linewidth = 2)
-plot(ma200, "MA 200", colorCuar, linewidth = 1, style = plot.style_area)
+//  plot(ma8,  "MA 8",  colorZero, linewidth = 1)
+//  plot(ma21, "MA 21", colorFirs, linewidth = 1)
+//  plot(ma55, "MA 55", colorSeco, linewidth = 1)
+plot(ma100, "MA 100", color.new(color.aqua, 80), linewidth = 2)
+plot(ma200, "MA 200", color.new(color.blue, 90), linewidth = 2, style = plot.style_area)
 
-maPlot8  = plot(ma8,  "MA 8",  color = na)
-maPlot10 = plot(ma10, "MA 10", color = na)
-maPlot13 = plot(ma13, "MA 13", color = na)
-maPlot20 = plot(ma20, "MA 20", color = na)
-maPlot21 = plot(ma21, "MA 21", color = na)
-maPlot30 = plot(ma30, "MA 30", color = na)
-maPlot34 = plot(ma34, "MA 34", color = na)
-maPlot40 = plot(ma40, "MA 40", color = na)
-maPlot50 = plot(ma50, "MA 50", color = na)
-maPlot55 = plot(ma55, "MA 55", color = na)
+maPlot8  = plot(ma8,  "MA 8",  editable=false, color = na)
+maPlot10 = plot(ma10, "MA 10", editable=false, color = na)
+maPlot13 = plot(ma13, "MA 13", editable=false, color = na)
+maPlot20 = plot(ma20, "MA 20", editable=false, color = na)
+maPlot21 = plot(ma21, "MA 21", editable=false, color = na)
+maPlot30 = plot(ma30, "MA 30", editable=false, color = na)
+maPlot34 = plot(ma34, "MA 34", editable=false, color = na)
+maPlot40 = plot(ma40, "MA 40", editable=false, color = na)
+maPlot50 = plot(ma50, "MA 50", editable=false, color = na)
+maPlot55 = plot(ma55, "MA 55", editable=false, color = na)
 
 //  ═════════
 //  Multi CMA
@@ -110,16 +112,24 @@ maPlot55 = plot(ma55, "MA 55", color = na)
 
 // CrossOver shadow
 // 8 MA
-color maCrossOver8 = ma8 > ma21 ? colorBuy80 : colorSell60
-fill(maPlot8, maPlot21, maCrossOver8, "CrossOver 8")
-
+color maCrossOver8 = ma8 > ma13 ? colorBuy : colorSell
+fill(maPlot8, maPlot13, maCrossOver8, "CrossOver 13")
 // 20 MA
-color maCrossOver21 = ma8 > ma55 ? colorBuy80 : colorSell80
-fill(maPlot8, maPlot55, maCrossOver21, "CrossOver 21")
+color maCrossOver20 = ma8 > ma20 ? colorBuy : colorSell
+fill(maPlot8, maPlot20, maCrossOver20, "CrossOver 20")
+// 30 MA
+color maCrossOver30 = ma8 > ma30 ? colorBuy : colorSell
+fill(maPlot8, maPlot30, maCrossOver30, "CrossOver 30")
+// 40 MA
+color maCrossOver40 = ma8 > ma40 ? colorBuy : colorSell
+fill(maPlot8, maPlot40, maCrossOver40, "CrossOver 40")
+// 55 MA
+color maCrossOver55 = ma8 > ma55 ? colorBuy : colorSell
+fill(maPlot8, maPlot55, maCrossOver55, "CrossOver 55")
 
 // CrossOver Line
 bool maRising  = ta.rising(ma10, 1)
-color crossMa = maRising ? colorBuy40 : colorSell40
+color crossMa = maRising ? color.new(colorBuy, transpar-60) : color.new(colorSell, transpar-60)
 plot(ma21, "Operativa", crossMa, 4)
 
 //  Degradado
